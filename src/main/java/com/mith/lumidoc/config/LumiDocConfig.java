@@ -2,7 +2,9 @@ package com.mith.lumidoc.config;
 
 
 import dev.langchain4j.data.segment.TextSegment;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
+import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiEmbeddingModel;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.pgvector.PgVectorEmbeddingStore;
@@ -39,6 +41,14 @@ public class LumiDocConfig {
                 .password("postgres")
                 .table("embeddings")
                 .dimension(1536)
+                .build();
+    }
+
+    @Bean
+    public ChatModel chatModel(){
+        return OpenAiChatModel.builder()
+                .apiKey(openApiKey)
+                .modelName("gpt-4o-mini")
                 .build();
     }
 }

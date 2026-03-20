@@ -3,14 +3,12 @@ package com.mith.lumidoc.service.impl;
 import com.mith.lumidoc.service.QueryHandlerService;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
-import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingSearchResult;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,10 +22,9 @@ import java.util.List;
 @Service
 public class QueryHandlerServiceImpl implements QueryHandlerService {
 
-    @Value("${open-ai.api-key}")
-    private String openApiKey;
-
     private EmbeddingModel model;
+
+    private ChatModel chatModel;
 
     private EmbeddingStore<TextSegment> embeddingStore;
 
@@ -50,8 +47,6 @@ public class QueryHandlerServiceImpl implements QueryHandlerService {
                 "Context:\n" + context + "\n\n" +
                 "Question:\n" + query;
 
-        ChatLanguageModel chatLanguageModel = OpenAiChatModel.builder().apiKey(openApiKey).modelName("gpt-4o-mini").build();
-
-        return chatLanguageModel.generate(prompt);
+        return chatModel.chat(prompt);
     }
 }
