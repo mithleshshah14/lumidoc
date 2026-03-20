@@ -1,4 +1,4 @@
-package com.mith.lumidoc;
+package com.mith.lumidoc.config;
 
 
 import dev.langchain4j.data.segment.TextSegment;
